@@ -21,6 +21,11 @@ spring:
             non_contextual_creation: true
   cloud:
     stream:
+      schemaRegistryClient:
+        endpoint: localhost:8081
+      schema:
+        avro:
+          dynamicSchemaGenerationEnabled: true
       kafka:
         binder:
           autoCreateTopics: true
@@ -37,12 +42,13 @@ spring:
         checkout-created-input:
           destination: streaming.ecommerce.checkout.created
           contentType: application/*+avro
+          group: inter-ecommerce
           consumer:
             use-native-encoding: true
         payment-paid-output:
           destination: streaming.ecommerce.payment.paid
           contentType: application/*+avro
-          group: ${spring.application.name}
+          group: inter-ecommerce
           producer:
             use-native-decoding: true
   kafka:
